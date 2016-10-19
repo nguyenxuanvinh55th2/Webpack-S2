@@ -1,8 +1,11 @@
 module.exports= {
   Query: {
     hello(root) {
-      console.log("resolves");
-      return 'world';
+      let ob ={name:"nguyen xuan vinh"}
+      return ob;
+    },
+    vinh(root){
+      return "worl"
     }
   },
   Mutation: {

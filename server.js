@@ -1,21 +1,22 @@
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config');
+const webpack = require('webpack');
+const webpackMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const config = require('./webpack.config');
 
-var path = require('path');
-var express =require('express')
+const path = require('path');
+const express =require('express')
 
-var {apolloExpress, graphiqlExpress} =require('apollo-server');
-var { makeExecutableSchema } = require('graphql-tools');
+const {apolloExpress, graphiqlExpress} =require('apollo-server');
+const { makeExecutableSchema } = require('graphql-tools');
 
-var bodyParser =require('body-parser')
+const bodyParser =require('body-parser')
 
-var typeDefs = require('./app/api/schema')
-var resolvers = require('./app/api/resolvers')
+const typeDefs = require('./app/api/schema')
+const resolvers = require('./app/api/resolvers')
 
 const app = express();
 
-var schema = makeExecutableSchema({typeDefs, resolvers});
+const schema = makeExecutableSchema({typeDefs, resolvers});
 
 app.use('/graphql', bodyParser.json(), apolloExpress({ schema: schema }));
 
@@ -23,10 +24,10 @@ app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
 }));
 
- new WebpackDevServer(webpack(config), {
+const compiler = webpack(config);
+const middleware = webpackMiddleware(compiler, {
   publicPath: config.output.publicPath,
-  hot: true,
-  historyApiFallback: true,
+  contentBase: 'src',
   stats: {
     colors: true,
     hash: false,
@@ -35,12 +36,14 @@ app.use('/graphiql', graphiqlExpress({
     chunkModules: false,
     modules: false
   }
-}).listen(4000, '0.0.0.0', function (err, result) {
-  if (err) {
-    return console.log(err);
-  }
+});
 
-  console.log('App listening at http://localhost:4000/');
+app.use(middleware);
+app.use(webpackHotMiddleware(compiler));
+
+app.use(express.static(__dirname + '/dist'));
+app.get('*', function response(req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(4001, '0.0.0.0', function (err, result) {
@@ -48,5 +51,5 @@ app.listen(4001, '0.0.0.0', function (err, result) {
     return console.log(err);
   }
 
-  console.log('Graphql listening at http://localhost:4000/graphiql');
+  console.log('Graphql listening at http://localhost:4001/graphiql');
 });

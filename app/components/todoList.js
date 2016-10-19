@@ -1,11 +1,9 @@
 import React,{ReactDOM} from 'react'
 import Todo from './todo.js'
+
 import {graphql} from 'react-apollo'
-
-import { createFragment } from 'apollo-client';
-
 import gql from 'graphql-tag';
-export default class TodoList extends React.Component {
+class TodoList extends React.Component {
   constructor(props){
     super(props)
     this.state = {
@@ -27,3 +25,19 @@ export default class TodoList extends React.Component {
     )
   }
 }
+
+const SUBJECT = gql`
+  query loadtam {
+    hello {
+    name
+  }
+  }
+`;
+const mapDataToProps = graphql(
+  SUBJECT,
+  {
+    options: () => ({  pollInterval: 1000 })
+  }
+);
+// const TodoList = mapDataToProps(TodoList)
+export default TodoList =mapDataToProps(TodoList)

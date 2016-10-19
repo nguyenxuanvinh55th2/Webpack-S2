@@ -4,8 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   context:__dirname + '/app',
   entry: [
-    'webpack-dev-server/client?http://localhost:4000',
-    'webpack/hot/only-dev-server',
+    'webpack-hot-middleware/client?reload=true',
     __dirname + '/app/main'
   ],
   output: {

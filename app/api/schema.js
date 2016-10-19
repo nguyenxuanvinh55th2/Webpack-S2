@@ -4,6 +4,7 @@ type Name {
 }
 type Query {
   hello: Name,
+  vinh:String
 },
 
 type Mutation {
