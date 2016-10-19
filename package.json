@@ -20,7 +20,16 @@
     "webpack-hot-middleware": "^2.13.0"
   },
   "dependencies": {
+    "apollo-client": "^0.4.21",
+    "apollo-server": "^0.3.2",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "graphql": "^0.7.2",
+    "graphql-tag": "^0.1.14",
+    "graphql-tools": "^0.7.2",
+    "path": "^0.12.7",
     "react": "^15.3.2",
+    "react-apollo": "^0.5.13",
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",

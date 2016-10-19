@@ -1,10 +1,19 @@
 import { combineReducers} from 'redux'
 import { routerReducer} from 'react-router-redux'
+
+import ApolloClient,{createNetworkInterface} from 'apollo-client';
 import todo from './todo'
+import post from './post'
+
+export const client = new ApolloClient({
+  networkInterface: createNetworkInterface('http://localhost:4001/graphql')
+});
+
 const rootReducer = combineReducers({
   todo,
-  routing:routerReducer
-
+  post,
+  routing:routerReducer,
+  apollo:client.reducer()
 })
 
 export default rootReducer;

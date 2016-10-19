@@ -4,7 +4,8 @@ import * as actionCreator from "../action/actionCreator"
 import React from 'react'
 function mapStateToProps(state){
   return {
-      todo:state.todo
+      todo:state.todo,
+      post:state.post
   }
 }
 

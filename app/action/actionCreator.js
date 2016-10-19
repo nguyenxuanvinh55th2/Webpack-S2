@@ -4,3 +4,25 @@ export function addTodo(name){
     name
   }
 }
+
+export function deleteTodo(id){
+  return {
+    type: 'DELETE_TODO',
+    id
+  }
+}
+
+export function updateTodo(id,name){
+  return {
+    type: 'UPDATE_TODO',
+    id,
+    name
+  }
+}
+
+export function addPost(name){
+  return {
+    type: 'ADD_POST',
+    name
+  }
+}
