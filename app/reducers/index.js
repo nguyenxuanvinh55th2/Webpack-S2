@@ -6,7 +6,7 @@ import todo from './todo'
 import post from './post'
 
 export const client = new ApolloClient({
-  networkInterface: createNetworkInterface('http://localhost:4001/graphql')
+  networkInterface: createNetworkInterface('http://localhost:3000/graphql')
 });
 
 const rootReducer = combineReducers({

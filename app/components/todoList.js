@@ -27,8 +27,8 @@ class TodoList extends React.Component {
 }
 
 const SUBJECT = gql`
-  query loadtam {
-    hello {
+  query loadtam($userId: String) {
+    hello(userId:$userId) {
     name
   }
   }
@@ -36,7 +36,7 @@ const SUBJECT = gql`
 const mapDataToProps = graphql(
   SUBJECT,
   {
-    options: () => ({  pollInterval: 1000 })
+    options: () => ({ variables: { userId: "nguyenxuan vinh" }, pollInterval: 20000  })
   }
 );
 // const TodoList = mapDataToProps(TodoList)
