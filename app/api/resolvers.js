@@ -10,7 +10,8 @@ module.exports= {
   },
   Mutation: {
     addTask(_) {
-     return "vinh"
+      let ob ={name:"nguyen xuan vinh"}
+      return ob;
    },
  }
 };

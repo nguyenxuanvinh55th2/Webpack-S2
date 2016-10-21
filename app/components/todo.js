@@ -4,7 +4,7 @@ export default class Todo extends React.Component {
     super(props)
   }
   render(){
-    console.log("todo",this.props);
+    // console.log("todo",this.props);
     return (
       <div>
         <p>{this.props.name}</p>

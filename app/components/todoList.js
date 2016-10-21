@@ -7,17 +7,33 @@ class TodoList extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      "name":""
+      "name":"",
+      "names": []
     }
   }
+  onClick() {
+    // this.props.mutate()
+    //   .then(({ data }) => {
+    //     console.log('got data', data);
+    //   })
+    let parent = this
+    this.props.submit(this.state.name).then(({data}) => {
+      console.log(data);
+      parent.setState({"names": data.addTask});
+    })
+  }
+
   render(){
-    console.log("data",this.props.data);
+    console.log("state",this.state.names);
+    // console.log("data",this.props);
     return (
       <div>
+
+      <div onClick={this.onClick.bind(this)}>Click me</div>
         <input value={this.state.name} onChange={({target})=> this.setState({"name":target.value})}/>
         <button onClick={this.props.addTodo.bind(this, this.state.name)} >Add Todo</button>
         {
-          this.props.todo.list.map((value,idx) => <Todo {...this.props} delete={this.props.deleteTodo.bind(idx)} key={idx} name={value} update={this.props.updateTodo.bind(this,idx,"updateTodo")}/>)
+          this.state.names.map((value,idx) => <Todo {...this.props} delete={this.props.deleteTodo.bind(idx)} key={idx} name={value.name} update={this.props.updateTodo.bind(this,idx,"updateTodo")}/>)
         }
         {/* truyen tham so prop qua con <Todo {...this.props}/> */}
       </div>
@@ -33,11 +49,27 @@ const SUBJECT = gql`
   }
   }
 `;
+
+const submitRepository = gql`
+  mutation submitRepository($name:String) {
+    addTask(name:$name) {
+      name
+    }
+  }
+`;
+
+const valuePass = 'nguyen xuan vinh 55th2'
 const mapDataToProps = graphql(
   SUBJECT,
   {
-    options: () => ({ variables: { userId: "nguyenxuan vinh" }, pollInterval: 20000  })
+    options: () => ({ variables: { userId: valuePass}, pollInterval: 20000  })
   }
 );
+const mutation = graphql(submitRepository,
+{
+  props: ({ mutate }) => ({
+    submit: (name) => mutate({ variables: { name } }),
+  }),
+})
 // const TodoList = mapDataToProps(TodoList)
-export default TodoList =mapDataToProps(TodoList)
+export default TodoList =mutation(TodoList)
