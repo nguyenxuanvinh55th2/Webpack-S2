@@ -1,9 +1,9 @@
 import React from 'react'
 
-import {graphql} from 'react-apollo'
+import {compose ,graphql} from 'react-apollo'
 import gql from 'graphql-tag';
 import {asteroid} from '../asteroid'
-class FormRegister extends React.Component {
+class Register extends React.Component {
   constructor(props) {
       super(props)
       this.state={"email":' ',"pass":' '}
@@ -22,11 +22,15 @@ class FormRegister extends React.Component {
   onLogout(){
     asteroid.logout()
   }
+  renderLogin(){
+    return(<p>{this.props.isLogin.isLogin ? "true" : "false"}</p>)
+  }
   render(){
-    console.log(this.props);
+    // console.log(this.props.isLogin.isLogin);
     return(
       <div>
-        <p>{this.props.isLogin}</p>
+        {/* {this.renderLogin()} */}
+        <p>{this.props.isLogin.isLogin ? "true" : "false"}</p>
         <input value={this.state.email} onChange={({target}) => this.setState({"email":target.value})}/>
         <input value={this.state.pass} onChange={({target}) => this.setState({"pass":target.value})}/>
         <button onClick={this.onClickRegister.bind(this)}>Login</button>
@@ -49,6 +53,4 @@ const mutation = graphql(REGISTER,
   }),
 })
 
-
-const Register = mutation(FormRegister)
-export default Register
+export default compose(mutation)(Register)

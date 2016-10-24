@@ -29,7 +29,8 @@ export function addPost(name){
 
 export function login(){
   return {
-    type:'LOGIN'
+    type:'LOGIN',
+    userId
   }
 }
 

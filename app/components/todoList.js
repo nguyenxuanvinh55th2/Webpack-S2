@@ -1,7 +1,7 @@
 import React,{ReactDOM} from 'react'
 import Todo from './todo.js'
-
-import {graphql} from 'react-apollo'
+import store from '../store'
+import {compose ,graphql} from 'react-apollo'
 import gql from 'graphql-tag';
 class TodoList extends React.Component {
   constructor(props){
@@ -23,7 +23,16 @@ class TodoList extends React.Component {
     })
   }
   render(){
-    // console.log("data",this.props);
+    //thay doi variables graphql
+    // console.log("data",this.props.data.variables.user);
+    // this.props.data.variables.user = "nguyen xuan vinh"
+
+    console.log("state0",store.getState().post.listPost)
+    store.getState().post.listPost = ["nguyen xuan vinh"]
+    console.log("state1",store.getState().post.listPost)
+    store.getState().post.listPost = ["changeState"]
+    console.log("state1",store.getState().post.listPost)
+    //   console.log("data",this.props.data.variables.user);
     // console.log("localStorage",localStorage.getItem("Meteor.loginToken"));
     return (
       <div>
@@ -42,13 +51,17 @@ class TodoList extends React.Component {
 }
 
 const SUBJECT = gql`
-  query loadtam($userId: String) {
-    hello(userId:$userId) {
+  query loadtam($user:String) {
+    hello(user:$user) {
     name
   }
   }
 `;
 
+const mapDataToProps = graphql(
+  SUBJECT
+);
+// option: ({name}) => ({variables:{user:name}})
 const submitRepository = gql`
   mutation submitRepository($name:String) {
     addTask(name:$name) {
@@ -57,13 +70,6 @@ const submitRepository = gql`
   }
 `;
 
-const valuePass = 'nguyen xuan vinh 55th2'
-const mapDataToProps = graphql(
-  SUBJECT,
-  {
-    options: () => ({ variables: { userId: valuePass}, pollInterval: 20000  })
-  }
-);
 const mutation = graphql(submitRepository,
 {
   props: ({ mutate }) => ({
@@ -71,4 +77,8 @@ const mutation = graphql(submitRepository,
   }),
 })
 // const TodoList = mapDataToProps(TodoList)
-export default TodoList =mutation(TodoList)
+// export default TodoList =mutation(TodoList)
+export default compose(
+  mutation,
+  mapDataToProps
+)(TodoList)

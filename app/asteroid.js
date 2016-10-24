@@ -8,7 +8,7 @@ export const asteroid = new Asteroid({
 
 asteroid.on("loggedIn",(userId)=>{
   console.log("loggedIn",userId);
-  store.dispatch({ type: 'LOGIN' })
+  store.dispatch({ type: 'LOGIN',userId })
   }
 )
 

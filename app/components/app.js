@@ -6,7 +6,7 @@ function mapStateToProps(state){
   return {
       todo:state.todo,
       post:state.post,
-      isLogin:state.login
+      isLogin:state.login,
   }
 }
 
