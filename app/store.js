@@ -11,7 +11,8 @@ const defaultState ={
   },
   post:{
     listPost:[]
-  }
+  },
+  login:false
 }
 
 const store = createStore(

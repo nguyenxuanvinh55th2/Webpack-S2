@@ -5,6 +5,7 @@ export default class Todo extends React.Component {
   }
   render(){
     // console.log("todo",this.props);
+    
     return (
       <div>
         <p>{this.props.name}</p>

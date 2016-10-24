@@ -5,7 +5,8 @@ import React from 'react'
 function mapStateToProps(state){
   return {
       todo:state.todo,
-      post:state.post
+      post:state.post,
+      isLogin:state.login
   }
 }
 

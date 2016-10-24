@@ -7,7 +7,7 @@ import store,{history} from './store'
 import App from './components/app'
 import Post from './components/post'
 import Todo from './components/todo'
-
+import Register from './components/register'
 import {client} from './reducers/index'
 import { ApolloProvider } from 'react-apollo';
 
@@ -17,6 +17,7 @@ ReactDOM.render(
         <Route path="/" component={App}>
           <IndexRoute component={TodoList}/>
           <Route path="/post" component={Post}/>
+          <Route path="/register" component={Register}/>
         </Route>
     </Router>
   </ApolloProvider>

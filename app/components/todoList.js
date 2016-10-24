@@ -15,17 +15,16 @@ class TodoList extends React.Component {
     // this.props.mutate()
     //   .then(({ data }) => {
     //     console.log('got data', data);
-    //   })
+    //   })s
     let parent = this
     this.props.submit(this.state.name).then(({data}) => {
       console.log(data);
       parent.setState({"names": data.addTask});
     })
   }
-
   render(){
-    console.log("state",this.state.names);
     // console.log("data",this.props);
+    // console.log("localStorage",localStorage.getItem("Meteor.loginToken"));
     return (
       <div>
 
