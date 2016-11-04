@@ -3,6 +3,7 @@ import Todo from './todo.js'
 import store from '../store'
 import {compose ,graphql} from 'react-apollo'
 import gql from 'graphql-tag';
+
 class TodoList extends React.Component {
   constructor(props){
     super(props)
@@ -23,15 +24,16 @@ class TodoList extends React.Component {
     })
   }
   render(){
+    console.log("data",this.props.data);
     //thay doi variables graphql
     // console.log("data",this.props.data.variables.user);
     // this.props.data.variables.user = "nguyen xuan vinh"
 
-    console.log("state0",store.getState().post.listPost)
-    store.getState().post.listPost = ["nguyen xuan vinh"]
-    console.log("state1",store.getState().post.listPost)
-    store.getState().post.listPost = ["changeState"]
-    console.log("state1",store.getState().post.listPost)
+    // console.log("state0",store.getState().post.listPost)
+    // store.getState().post.listPost = ["nguyen xuan vinh"]
+    // console.log("state1",store.getState().post.listPost)
+    // store.getState().post.listPost = ["changeState"]
+    // console.log("state1",store.getState().post.listPost)
     //   console.log("data",this.props.data.variables.user);
     // console.log("localStorage",localStorage.getItem("Meteor.loginToken"));
     return (
@@ -78,6 +80,12 @@ const mutation = graphql(submitRepository,
 })
 // const TodoList = mapDataToProps(TodoList)
 // export default TodoList =mutation(TodoList)
+const SUBSCRIPTION_QUERY = gql`
+  subscription scoreUpdates {
+    showTast
+  }
+`;
+
 export default compose(
   mutation,
   mapDataToProps
