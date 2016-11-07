@@ -10,7 +10,7 @@ export default class PostItem extends React.Component {
     return (
       <div>
         <hr></hr>
-        <p>{this.props.post.titile} {this.props.post.author} {this.props.post.votes}</p>
+        <p>{this.props.post.titile} {this.props.post.author} {this.props.post.votes} {this.props.index}</p>
         <div>
           <input value={this.state.vote} onChange={({target})=> this.setState({"vote":target.value})}></input>
           <button onClick={(e)=>this.props.updatePost(this.props.post._id,this.state.vote)}>updatePost</button>
