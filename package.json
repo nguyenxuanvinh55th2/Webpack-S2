@@ -30,6 +30,7 @@
     "graphql-tools": "^0.7.2",
     "html-webpack-plugin": "^2.22.0",
     "path": "^0.12.7",
+    "patternfly": "^3.13.0",
     "react": "^15.3.2",
     "react-addons-update": "^15.3.2",
     "react-apollo": "0.5.16",
