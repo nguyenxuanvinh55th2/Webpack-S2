@@ -5,7 +5,7 @@ import ApolloClient,{createNetworkInterface} from 'apollo-client';
 import { Client } from 'subscriptions-transport-ws';
 
 //reducers
-import todo from './todo'
+// import todo from './todo's
 import post from './post'
 import login from './login'
 import addGraphQLSubscriptions from '../addGraphQL.js'
@@ -24,7 +24,6 @@ export const client = new ApolloClient({
 })
 
 const rootReducer = combineReducers({
-  todo,
   post,
   login,
   routing:routerReducer,

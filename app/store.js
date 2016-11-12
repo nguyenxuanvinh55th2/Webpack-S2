@@ -4,14 +4,8 @@ import {routerReducer, syncHistoryWithStore} from 'react-router-redux'
 import { browserHistory} from 'react-router'
 
 import rootReducer from './reducers/index'
-
+import post from './reducers/post'
 const defaultState ={
-  todo:{
-    list:[]
-  },
-  post:{
-    listPost:[]
-  },
   login:false
 }
 
