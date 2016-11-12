@@ -1,12 +1,12 @@
 import React from  'react'
-export default class PostItem extends React.Component {
+import {compose ,graphql} from 'react-apollo'
+import gql from 'graphql-tag';
+class PostItem extends React.Component {
   constructor(props){
     super(props)
-    this.state={"vote":''}
+
   }
   render(){
-    console.log("todo",this.props);
-// onClick={this.props.updateLike(this.props.post._id)}
     return (
       <div style={{float: "left", margin:"10px",minWidth: "30%",maxWidth:"31%",boxShadow:'0 4px 8px 0 rgba(0,0,0,0.2)',transition:'0.3s'}}>
         <img src={this.props.post.display_src} alt="Avartar" style={{width:'100%'}}></img>
@@ -21,3 +21,18 @@ export default class PostItem extends React.Component {
     )
   }
 }
+
+const UPDATE_LIKE_POST =gql`
+  mutation updateLikePost($postId:String){
+    updateLikePost(postId:$postId)
+  }
+`
+const updatelikePost = graphql(UPDATE_LIKE_POST,
+{
+  props:({mutate})=> ({
+    updateLike :(id) => mutate({variables:{postId:id}})
+  })
+});
+export default compose(
+  updatelikePost
+)(PostItem)

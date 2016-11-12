@@ -4,16 +4,25 @@ import {compose ,graphql} from 'react-apollo'
 import gql from 'graphql-tag';
 import PostItem from './postItem'
 import update from 'react-addons-update';
-// const SUBSCRIBE_POST =gql `
-//   subscription subPost($author:String) {
-//     postUpvoted(author:$author) {
-//       _id
-//       title
-//       author
-//       votes
-//     }
-//   }
-// `
+const SUBSCRIBE_POST =gql `
+  subscription subscriptPost {
+    subscriptPost {
+      _id
+      caption
+      likes
+      display_src
+      comments {
+        _id
+        text
+        userId
+        user {
+          _id
+          address
+        }
+      }
+    }
+  }
+`
 class PostList extends React.Component {
   constructor(props){
     super(props)
@@ -21,33 +30,26 @@ class PostList extends React.Component {
       caption:" ",
       link:" "
     }
-      this.subscription = null;
+    this.subscription = null;
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (!this.subscription && !nextProps.loading) {
-  //     let that = this;
-  //     this.subscription = this.props.subscribeToMore({
-  //       document: SUBSCRIBE_POST,
-  //       variables: { author: this.state.author },
-  //       updateQuery: (previousResult, { subscriptionData }) => {
-  //         console.log("message",subscriptionData);
-  //
-  //         const newComment = subscriptionData.data.postUpvoted;
-  //           console.log("newComment",newComment);
-  //           console.log('previousResult', previousResult);
-  //         const newResult = update(previousResult, {
-  //             $set: {posts: previousResult.posts.map((item)=>{
-  //               if(item._id === newComment._id) return newComment;
-  //               return item;
-  //             })},
-  //         });
-  //         console.log("newResult",newResult);
-  //
-  //         return newResult;
-  //       },
-  //     });
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    if(!this.subscription && !nextProps.loading){
+      this.subscription = this.props.subscribeToMore({
+        document:SUBSCRIBE_POST,
+        variables:{},
+        updateQuery :(previousResult,{subscriptionData}) =>{
+          let newPost = subscriptionData.data.subscriptPost;
+          let newResult = previousResult;
+          newResult.posts.forEach(item => {
+            if(item._id === newPost._id)
+              if(item.likes !== newPost.likes)
+                item.likes = newPost.likes
+          })
+          return newResult;
+        }
+      })
+    }
+  }
   insertPost(event){
     event.preventDefault();
     this.props.insertPost(this.state.caption,this.state.link);
@@ -59,8 +61,6 @@ class PostList extends React.Component {
     if(this.props.loading || !this.props.posts)
       return (<div  className="spinner spinner-lg"></div>)
     else {
-      console.log(this.props.posts);
-
       return (<div style={{padding:'10px'}} >
         {this.props.posts.map((post,idx)=><PostItem {...this.props} key={idx} index={idx} post={post}></PostItem>)}
       </div>)
@@ -153,36 +153,7 @@ const insertPost = graphql(ADD_POST,
     })
   }
 );
-const UPDATE_LIKE_POST =gql`
-  mutation updateLikePost($postId:String){
-    updateLikePost(postId:$postId)
-  }
-`
-const updatelikePost = graphql(UPDATE_LIKE_POST,
-{
-  props:({mutate})=> ({
-    updateLike :(id) => mutate({variables:{postId:id}})
-  })
-});
-// const UPDATE_VOTE_POST = gql`
-//   mutation update($postId:String,$vote:Int){
-//     upvotePost(postId:$postId,vote:$vote) {
-//       _id
-//       title
-//       author
-//       votes
-//     }
-//   }
-// `
-// const mutationUpdateVote = graphql(UPDATE_VOTE_POST,
-// {
-//   props: ({ mutate }) => ({
-//     updatePost: (postId,vote) => mutate({ variables: { postId,vote } }),
-//   }),
-// })
-
 export default compose(
-mapdataPost,
-insertPost,
-updatelikePost
+  mapdataPost,
+  insertPost
 )(PostList)
