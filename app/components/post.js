@@ -32,6 +32,9 @@ class PostList extends React.Component {
     }
     this.subscription = null;
   }
+  //  isDuplicatePost(newPost, existingPost) {
+  //    return newPost._id !== null && existingPost.some((post) => newPost._id === post._id);
+  // }
   componentWillReceiveProps(nextProps) {
     if(!this.subscription && !nextProps.loading){
       this.subscription = this.props.subscribeToMore({
@@ -40,11 +43,14 @@ class PostList extends React.Component {
         updateQuery :(previousResult,{subscriptionData}) =>{
           let newPost = subscriptionData.data.subscriptPost;
           let newResult = previousResult;
-          newResult.posts.forEach(item => {
-            if(item._id === newPost._id)
-              if(item.likes !== newPost.likes)
-                item.likes = newPost.likes
-          })
+            newResult.posts.forEach(item => {
+              if(item._id === newPost._id)
+                if(item.likes !== newPost.likes)
+                  item.likes = newPost.likes
+                  else {
+                    newResult.posts.splice(item, 1)
+                  }
+            })
           return newResult;
         }
       })
