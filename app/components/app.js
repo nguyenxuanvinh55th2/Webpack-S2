@@ -16,12 +16,7 @@ class Main extends React.Component {
   render(){
     return (
       <div>
-        <div>
-          {/* <HeaderContain/> */}
-        </div>
-        <div  style={{marginTop: '39px'}}>
           {React.cloneElement(this.props.children, this.props)}
-        </div>
       </div>
     )
   }
