@@ -43,7 +43,8 @@ var config = {
             use: ['babel-loader'],
             include: path.join(__dirname, "app")
           },
-          { test: /\.css$/i, use: ['style-loader', 'css-loader'] }
+          { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
+          { test: /\.scss/i, use: ['style-loader', 'sass-loader'] }
         ]
     }
 };
