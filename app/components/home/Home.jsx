@@ -7,7 +7,7 @@ export default class Home extends React.Component {
   render(){
     return (
     <div>
-      <button className="btn btn-primary">Home</button>
+      <button className="btn btn-primary vinh">Home</button>
     </div>
     )
   }

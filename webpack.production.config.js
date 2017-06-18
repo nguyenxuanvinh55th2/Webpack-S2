@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 var config = {
     context: __dirname + "/app",
@@ -34,6 +35,11 @@ var config = {
             filename: 'index.html',
             inject: 'body'
         }),
+        new ExtractTextPlugin({ // define where to save the file
+          filename: 'bundle.css',
+          allChunks: true,
+          disable: process.env.NODE_ENV !== 'production'
+          })
     ],
     module: {
         rules: [
@@ -43,8 +49,20 @@ var config = {
             use: ['babel-loader'],
             include: path.join(__dirname, "app")
           },
-          { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
-          { test: /\.scss/i, use: ['style-loader', 'sass-loader'] }
+          { // regular css files
+              test: /\.css$/,
+              loader: ExtractTextPlugin.extract({
+                loader: 'css-loader?importLoaders=1',
+              }),
+            },
+            {
+              test: /\.scss$/,
+              use: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                //resolve-url-loader may be chained before sass-loader if necessary
+                use: ['css-loader', 'sass-loader']
+              })
+            }
         ]
     }
 };
